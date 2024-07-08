@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/teal_200"
+    tools:context=".AddBusInfoAdapter">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="@dimen/_30sdp"
+        android:layout_marginEnd="@dimen/_30sdp"
+        android:orientation="vertical">
+        <com.google.android.material.card.MaterialCardView
+            android:layout_height="@dimen/_100sdp"
+            android:layout_width="@dimen/_100sdp"
+            android:id="@+id/selectPhoto"
+            app:cardCornerRadius="@dimen/_10sdp"
+            app:cardElevation="@dimen/_55dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:id="@+id/ivBusPhoto"
+                    android:src="@drawable/camera"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:id="@+id/etBusName"
+            android:background="@drawable/edittextbg"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:hint="Enter Bus Name"
+            android:singleLine="true"
+            android:paddingStart="@dimen/_20sdp" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:id="@+id/etBusModel"
+            android:background="@drawable/edittextbg"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:hint="Enter Bus Model"
+            android:singleLine="true"
+            android:paddingStart="@dimen/_20sdp" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:id="@+id/etBusNumber"
+            android:background="@drawable/edittextbg"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:hint="Enter Bus Number"
+            android:singleLine="true"
+            android:paddingStart="@dimen/_20sdp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:background="@drawable/edittextbg"
+            android:layout_marginTop="@dimen/_30sdp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvLocation"
+            android:text="Switch On Current Location"
+            android:textSize="@dimen/_11ssp"
+            android:layout_centerVertical="true"
+            android:paddingStart="@dimen/_20sdp"/>
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/getLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="@dimen/_5sdp"/>
+
+        </RelativeLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:id="@+id/btnUpload"
+            android:layout_margin="@dimen/_20sdp"
+            android:background="@drawable/edittextbg"
+            android:backgroundTint="@color/lightblue"
+            android:textColor="@color/white"
+            android:text="Upload"
+            android:textStyle="bold"/>
+    </LinearLayout>
+</RelativeLayout>

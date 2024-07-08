@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_map"
+        android:title="Map"
+        android:icon="@drawable/ic_map" />
+    <item
+        android:id="@+id/nav_garage"
+        android:title="Buses"
+        android:icon="@drawable/garage" />
+    <item
+        android:id="@+id/nav_profile"
+        android:title="AddBus"
+        android:icon="@drawable/add" />
+</menu>

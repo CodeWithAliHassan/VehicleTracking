@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".SignInFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_20sdp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sign In"
+            android:layout_margin="20dp"
+            android:textColor="@color/black"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:textSize="54sp"
+            android:textStyle="bold"
+
+            />
+        <EditText
+            android:id="@+id/etLEmail"
+            android:layout_width="match_parent"
+            android:layout_height="67dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edittextbg"
+            android:drawableStart="@drawable/email"
+            android:drawablePadding="26.00dp"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:paddingStart="15dp"
+            android:singleLine="true"/>
+        <EditText
+            android:id="@+id/etLPassword"
+            android:layout_width="match_parent"
+            android:layout_height="67dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edittextbg"
+            android:drawableStart="@drawable/password"
+            android:drawablePadding="26.00dp"
+            android:singleLine="true"
+            android:hint="Password"
+            android:paddingStart="15dp" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSignIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="13dp"
+            android:background="@drawable/buttonbg"
+            android:text="Sign In"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+        <TextView
+            android:id="@+id/tvSignUpLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Not registered yet? Sign Up"
+            android:layout_margin="20dp"
+            android:textColor="@color/black"
+            android:layout_marginTop="16dp"/>
+
+
+
+
+
+
+    </LinearLayout>
+
+</ScrollView>
