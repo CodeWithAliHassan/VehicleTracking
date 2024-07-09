@@ -13,10 +13,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class HomeActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
 
-    private final Fragment mapFragment = new ProfileFragment();
+    private final Fragment profileFragment = new ProfileFragment();
     private final Fragment garageFragment = new GarageFragment();
     private final Fragment addBusInfoFragment = new AddBusInfoAdapter();
-
+    private final Fragment mapFragment = new MapFragment();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,8 +27,11 @@ public class HomeActivity extends AppCompatActivity {
 
         // Set the default fragment
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, mapFragment)
+                .replace(R.id.container, profileFragment)
                 .commit();
+
+
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -37,12 +40,14 @@ public class HomeActivity extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     Fragment selectedFragment = null;
 
-                    if (item.getItemId() == R.id.nav_map) {
-                        selectedFragment = mapFragment;
-                    } else if (item.getItemId() == R.id.nav_garage) {
+                    if (item.getItemId() == R.id.nav_profile) {
+                        selectedFragment = profileFragment;
+                    } else if (item.getItemId() == R.id.nav_buses) {
                         selectedFragment = garageFragment;
-                    } else if (item.getItemId() == R.id.nav_profile) {
+                    } else if (item.getItemId() == R.id.nav_addbus) {
                         selectedFragment = addBusInfoFragment;
+                    } else if (item.getItemId() == R.id.nav_map) {
+                        selectedFragment = mapFragment;
                     }
 
                     // Load selected fragment

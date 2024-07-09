@@ -3,10 +3,10 @@ package com.example.vehicletracking;
 public class BusModel {
     private String busName, busModel, busNumber, busLongitude, busLatitude, busImage, busDocID, CurrentUserID,busRealAddress;
 
-    public BusModel(String s, String modelA, String number, String string, String s1, String imageUrl1, String docID1, String userID1) {
+    public BusModel() {
     }
 
-    public BusModel(String busName, String busModel, String busNumber, String busLongitude, String busLatitude, String busImage, String busDocID, String currentUserID, String busRealAddress) {
+    public BusModel(String busName, String busModel, String busNumber, String busLongitude, String busLatitude, String busImage, String busDocID, String currentUserID,String busRealAddress) {
         this.busName = busName;
         this.busModel = busModel;
         this.busNumber = busNumber;
@@ -17,6 +17,8 @@ public class BusModel {
         this.CurrentUserID = currentUserID;
         this.busRealAddress=busRealAddress;
     }
+
+
 
     public String getBusRealAddress() {
         return busRealAddress;
@@ -90,6 +92,19 @@ public class BusModel {
         this.busLatitude = busLatitude;
     }
 
-
+    @Override
+    public String toString() {
+        return "BusModel{" +
+                "busName='" + busName + '\'' +
+                ", busModel='" + busModel + '\'' +
+                ", busNumber='" + busNumber + '\'' +
+                ", busLongitude='" + busLongitude + '\'' +
+                ", busLatitude='" + busLatitude + '\'' +
+                ", busImage='" + busImage + '\'' +
+                ", busDocID='" + busDocID + '\'' +
+                ", CurrentUserID='" + CurrentUserID + '\'' +
+                ", busRealAddress='" + busRealAddress + '\'' +
+                '}';
+    }
 }
 

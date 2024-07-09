@@ -26,7 +26,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/_5sdp"
-                android:src="@drawable/bus_top" />
+                  />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -48,7 +48,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="Car Name"
+                        android:text="Bus Name"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_15ssp"
                         android:textStyle="bold" />
@@ -63,7 +63,8 @@
                         <ImageView
                             android:layout_width="@dimen/_13sdp"
                             android:layout_height="@dimen/_13sdp"
-                            android:src="@drawable/locationblu" />
+                            android:src="@drawable/locationblu"
+                         android:id="@+id/ivBusLocation"/>
 
                         <TextView
                             android:id="@+id/tvBusLocation"
@@ -91,10 +92,10 @@
                         <ImageView
                             android:layout_width="@dimen/_13sdp"
                             android:layout_height="@dimen/_13sdp"
-                            android:src="@drawable/unlock" />
+                            android:src="@drawable/model" />
 
                         <TextView
-                            android:id="@+id/tvBusOpen"
+                            android:id="@+id/tvBusModel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -119,10 +120,10 @@
                         <ImageView
                             android:layout_width="@dimen/_13sdp"
                             android:layout_height="@dimen/_13sdp"
-                            android:src="@drawable/power" />
+                            android:src="@drawable/number" />
 
                         <TextView
-                            android:id="@+id/tvBusStart"
+                            android:id="@+id/tvBusNumber"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"

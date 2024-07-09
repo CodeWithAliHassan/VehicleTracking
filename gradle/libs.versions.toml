@@ -1,5 +1,6 @@
 [versions]
 agp = "8.5.0"
+googleMapsServices = "0.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
@@ -17,9 +18,15 @@ meowBottomNavigation = "1.3.1"
 picasso = "2.8"
 playServicesAuthVersion = "21.2.0"
 firebaseStorage = "21.0.0"
+playServicesMaps = "19.0.0"
+playServicesMapsVersion = "19.0.0"
 
 [libraries]
+android-maps-utils_is_2-1-0 = { module = "  com.google.maps/android:android-maps-utils is 2.1.0" }
 gms-play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuthVersion" }
+google-maps-services = { module = "com.google.maps:google-maps-services", version.ref = "googleMapsServices" }
+google-maps-services_is_2-1-0 = { module = "com.google.maps:google-maps-services is 2.1.0" }
+google-maps-utils_is_2-1-0 = { module = "  com.google.maps:google-maps-utils is 2.1.0" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -35,6 +42,11 @@ firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore
 meow-bottom-navigation = { module = "com.etebarian:meow-bottom-navigation", version.ref = "meowBottomNavigation" }
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
 picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
+play-services-basement_is_18-0-0 = { module = "com.google.android.gms:play-services-basement is 18.0.0" }
+play-services-location_is_19-0-0 = { module = " com.google.android.gms:play-services-location is 19.0.0" }
+play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMaps" }
+play-services-maps-v2010 = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMapsVersion" }
+play-services-maps_is_19-0-0 = { module = "com.google.android.gms:play-services-maps is 19.0.0" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

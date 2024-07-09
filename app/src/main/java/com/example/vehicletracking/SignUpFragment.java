@@ -63,11 +63,11 @@ public class SignUpFragment extends Fragment {
             }
         });
 
-        // Click listener for "Already registered? Login here" link
+        
         tvSignInLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navigate to SignInFragment
+
                 ((MainActivity) requireActivity()).loadSignInFragment();
             }
         });
@@ -133,7 +133,7 @@ public class SignUpFragment extends Fragment {
 
     private void Progressbar() {
         kProgressHUD = KProgressHUD.create(requireContext())
-                .setStyle(KProgressHUD.Style.ANNULAR_DETERMINATE)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setMaxProgress(100)
                 .setBackgroundColor(R.color.lightblue)
                 .setLabel("Please wait")

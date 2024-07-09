@@ -21,7 +21,7 @@
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         app:itemIconTint="@color/black"
-        app:itemTextColor="@color/purple_500"
+        app:itemTextColor="@color/black"
         app:menu="@menu/bottom_nav_menu" />
 
 </RelativeLayout>

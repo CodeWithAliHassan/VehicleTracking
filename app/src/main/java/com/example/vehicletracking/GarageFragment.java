@@ -1,9 +1,12 @@
 package com.example.vehicletracking;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,12 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 
-public class GarageFragment extends Fragment {
+public class GarageFragment extends Fragment implements BusInfoAdapter.OnBusInfoListener {
     private FirebaseFirestore firebaseFirestore;
-    private RecyclerView recyclerView;
     private BusInfoAdapter busInfoAdapter;
     private ArrayList<BusModel> busList;
 
@@ -27,23 +30,93 @@ public class GarageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_garage, container, false);
 
         firebaseFirestore = FirebaseFirestore.getInstance();
-        recyclerView = view.findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         busList = new ArrayList<>();
 
-        // Add hardcoded bus data
-        busList.add(new BusModel("Bus A", "Model A", "12345", "35.6895", "139.6917", "bus_image_a.jpeg", "bus_doc_id_a", "user_id_1", "Bus A Address"));
-        busList.add(new BusModel("Bus B", "Model B", "67890", "40.7128", "-74.0060", "bus_image_b.jpg", "bus_doc_id_b", "user_id_2", "Bus B Address"));
-        busList.add(new BusModel("Bus C", "Model C", "54321", "51.5074", "-0.1278", "bus_image_c.jpg", "bus_doc_id_c", "user_id_3", "Bus C Address"));
-        busList.add(new BusModel("Bus D", "Model D", "98765", "48.8566", "2.3522", "bus_image_d.jpg", "bus_doc_id_d", "user_id_4", "Bus D Address"));
-        busList.add(new BusModel("Bus E", "Model E", "13579", "37.7749", "-122.4194", "bus_image_e.jpg", "bus_doc_id_e", "user_id_5", "Bus E Address"));
-        busList.add(new BusModel("Bus F", "Model F", "24680", "52.5200", "13.4050", "bus_image_f.jpg", "bus_doc_id_f", "user_id_6", "Bus F Address"));
-        busList.add(new BusModel("Bus G", "Model G", "11223", "-33.8688", "151.2093", "bus_image_g.jpg", "bus_doc_id_g", "user_id_7", "Bus G Address"));
-
-        // Initialize adapter
-        busInfoAdapter = new BusInfoAdapter(busList, getActivity());
+        // Initialize adapter with listener
+        busInfoAdapter = new BusInfoAdapter(busList, getActivity(), this);
         recyclerView.setAdapter(busInfoAdapter);
 
+        // Fetch data from Firestore
+        fetchBusData();
+
         return view;
+    }
+
+    private void fetchBusData() {
+        firebaseFirestore.collection("BusInfo")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        busList.clear(); // Clear existing data
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            BusModel bus = document.toObject(BusModel.class);
+                            busList.add(bus);
+                        }
+                        busInfoAdapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(getActivity(), "Error getting documents.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    @Override
+    public void onEditClick(BusModel bus, int position) {
+        // Inflate the dialog with custom view
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        View dialogView = inflater.inflate(R.layout.fragment_addbus_info, null);
+
+        // Build the dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(dialogView);
+        builder.setTitle("Edit Bus");
+
+        // Get the EditText from the dialog
+        EditText etBusName = dialogView.findViewById(R.id.etBusName);
+        EditText etBusNumber = dialogView.findViewById(R.id.etBusNumber);
+        EditText etBusModel = dialogView.findViewById(R.id.etBusModel);
+
+        // Set current values
+        etBusName.setText(bus.getBusName());
+        etBusNumber.setText(bus.getBusNumber());
+        etBusModel.setText(bus.getBusModel());
+
+        builder.setPositiveButton("Save", (dialog, which) -> {
+            String newBusName = etBusName.getText().toString();
+            String newBusNumber = etBusNumber.getText().toString();
+            String newBusModel = etBusModel.getText().toString();
+
+            // Update bus model
+            bus.setBusName(newBusName);
+            bus.setBusNumber(newBusNumber);
+            bus.setBusModel(newBusModel);
+
+            firebaseFirestore.collection("BusInfo").document(bus.getBusDocID())
+                    .set(bus)
+                    .addOnSuccessListener(aVoid -> {
+                        busList.set(position, bus);
+                        busInfoAdapter.notifyItemChanged(position);
+                        Toast.makeText(getActivity(), "Bus updated", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> Toast.makeText(getActivity(), "Error updating bus", Toast.LENGTH_SHORT).show());
+        });
+
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+
+        builder.create().show();
+    }
+
+    @Override
+    public void onDeleteClick(BusModel bus, int position) {
+        // Handle delete action
+        firebaseFirestore.collection("BusInfo").document(bus.getBusDocID())
+                .delete()
+                .addOnSuccessListener(aVoid -> {
+                    busList.remove(position);
+                    busInfoAdapter.notifyItemRemoved(position);
+                    Toast.makeText(getActivity(), "Bus deleted", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> Toast.makeText(getActivity(), "Error deleting bus", Toast.LENGTH_SHORT).show());
     }
 }

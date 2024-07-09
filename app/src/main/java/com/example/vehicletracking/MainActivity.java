@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Replace the container with SignUpFragment by default
-        loadSignUpFragment();
+        loadSignInFragment();
     }
 
     // Method to replace fragments within the container

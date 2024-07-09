@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,6 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
@@ -48,7 +48,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import java.io.IOException;
@@ -94,7 +93,6 @@ public class AddBusInfoAdapter extends Fragment {
         selectPhoto = view.findViewById(R.id.selectPhoto);
         ivBusPhoto = view.findViewById(R.id.ivBusPhoto);
         getLocation = view.findViewById(R.id.getLocation);
-
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
@@ -122,6 +120,8 @@ public class AddBusInfoAdapter extends Fragment {
             public void onClick(View v) {
                 showProgressbar();
                 uploadImage();
+                uploadBusInfo();
+                getCurrentLocation();
             }
         });
 
@@ -208,22 +208,35 @@ public class AddBusInfoAdapter extends Fragment {
             }
         }
     }
-    private void getLocationfromLongLat(Context context,double LONGITUDE,double LATITUDE)
-    {
+    private String getLocationfromLongLat(Context context, double longitude, double latitude) {
         try {
-            Geocoder geocoder=new Geocoder(context, Locale.getDefault());
-            List<Address> addresses =geocoder.getFromLocation(LONGITUDE,LATITUDE,1);
-            if(addresses!=null && addresses.size()>0)
-            {
-                address=addresses.get(0).getAddressLine(0);
-                tvBusLocation.setText(address);
+            Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+            if (addresses != null && addresses.size() > 0) {
+                address = addresses.get(0).getAddressLine(0);
+                // Update UI on the main thread
+                requireActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tvBusLocation.setText(address);
+                    }
+                });
             }
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Log the error for debugging
+            Log.e("GeocodingError", "Error getting address from coordinates", e);
+            // Handle the error appropriately
+            requireActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getContext(), "Error getting address: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
-
+        return address;
     }
+
 
     private final ActivityResultLauncher<Intent> pickImageLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -258,40 +271,29 @@ public class AddBusInfoAdapter extends Fragment {
         if (imageUri != null) {
             final StorageReference myRef = storageReference.child("photo/" + imageUri.getLastPathSegment());
             myRef.putFile(imageUri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            myRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    if (uri != null) {
-                                        photoUrl = uri.toString();
-                                        uploadBusInfo();
-                                    } else {
-                                        kProgressHUD.dismiss();
-                                        Toast.makeText(getContext(), "Failed to get download URL", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    kProgressHUD.dismiss();
-                                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
+                    .addOnSuccessListener(taskSnapshot -> {
+                        myRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                            if (uri != null) {
+                                photoUrl = uri.toString();
+                            } else {
+                                kProgressHUD.dismiss();
+                                Toast.makeText(getContext(), "Failed to get download URL", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(e -> {
                             kProgressHUD.dismiss();
                             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+                        });
+                    })
+                    .addOnFailureListener(e -> {
+                        kProgressHUD.dismiss();
+                        Toast.makeText(getContext(), "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
         } else {
             kProgressHUD.dismiss();
             Toast.makeText(getContext(), "Please select an image", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void uploadBusInfo() {
         String name = etBusName.getText().toString().trim();
@@ -305,8 +307,7 @@ public class AddBusInfoAdapter extends Fragment {
         }
 
         DocumentReference documentReference = firebaseFirestore.collection("BusInfo").document();
-        BusModel bus = new BusModel(name, model, number, busLongitude, busLattitude, photoUrl, "", currentUserId,"");
-
+        BusModel bus = new BusModel(name, model, number, busLongitude, busLattitude, photoUrl, documentReference.getId(),currentUserId,address);
         documentReference.set(bus)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -324,6 +325,7 @@ public class AddBusInfoAdapter extends Fragment {
                                                 etBusName.setText("");
                                                 etBusModel.setText("");
                                                 etBusNumber.setText("");
+                                                tvBusLocation.setText("");
                                                 ivBusPhoto.setImageResource(0);// Reset image view
                                             } else {
                                                 Toast.makeText(getContext(), "Failed to upload data", Toast.LENGTH_SHORT).show();

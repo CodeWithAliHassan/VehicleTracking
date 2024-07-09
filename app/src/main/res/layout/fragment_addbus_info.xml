@@ -41,6 +41,7 @@
             android:background="@drawable/edittextbg"
             android:layout_marginTop="@dimen/_30sdp"
             android:hint="Enter Bus Name"
+            android:textColor="@color/black"
             android:singleLine="true"
             android:paddingStart="@dimen/_20sdp" />
         <EditText
@@ -50,6 +51,7 @@
             android:background="@drawable/edittextbg"
             android:layout_marginTop="@dimen/_30sdp"
             android:hint="Enter Bus Model"
+            android:textColor="@color/black"
             android:singleLine="true"
             android:paddingStart="@dimen/_20sdp" />
         <EditText
@@ -60,6 +62,7 @@
             android:layout_marginTop="@dimen/_30sdp"
             android:hint="Enter Bus Number"
             android:singleLine="true"
+            android:textColor="@color/black"
             android:paddingStart="@dimen/_20sdp" />
         <RelativeLayout
             android:layout_width="match_parent"
@@ -73,6 +76,7 @@
             android:text="Switch On Current Location"
             android:textSize="@dimen/_11ssp"
             android:layout_centerVertical="true"
+            android:textColor="@color/black"
             android:paddingStart="@dimen/_20sdp"/>
 
             <com.google.android.material.switchmaterial.SwitchMaterial

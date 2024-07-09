@@ -33,6 +33,7 @@
             android:drawableStart="@drawable/email"
             android:drawablePadding="26.00dp"
             android:hint="Email"
+            android:textColor="@color/black"
             android:inputType="textEmailAddress"
             android:paddingStart="15dp"
             android:singleLine="true"/>
@@ -46,6 +47,7 @@
             android:drawablePadding="26.00dp"
             android:singleLine="true"
             android:hint="Password"
+            android:textColor="@color/black"
             android:paddingStart="15dp" />
 
 
@@ -66,11 +68,6 @@
             android:layout_margin="20dp"
             android:textColor="@color/black"
             android:layout_marginTop="16dp"/>
-
-
-
-
-
 
     </LinearLayout>
 

@@ -3,4 +3,5 @@
     <string name="tab_layout_content_description">Tabs for authentication options</string>
     <string name="view_pager_content_description">Pager for authentication screens</string>
     <string name="default_web_client_id">568779474835-neaak65boscg2h3prjg1b2ibh5drbt4v.apps.googleusercontent.com</string>
+    <string name="google_maps_key">AIzaSyAIw_E78AEggeHqF0Cpw5sX6aqUWqv264U</string>
 </resources>
