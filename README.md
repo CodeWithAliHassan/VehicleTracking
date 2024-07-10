@@ -10,7 +10,7 @@ This Android application, named Vehicle Tracking App, is designed to track and m
 
 ## Installation
 ### Clone the Repository
-git clone https://github.com/your_username/vehicle-tracking-app.git
+git clone https://github.com/CodeWithAliHassan/VehicleTracking.git
 ## Open in Android Studio
 1. Launch Android Studio.
 2. Choose "Open an existing Android Studio project."
